@@ -6,6 +6,8 @@ public class CalculatorState
     /// The number currently being displayed.
     /// </summary>
     public decimal DisplayValue { get; set; }
+    public string DisplayText { get; set; } = "0";
+
     /// <summary>
     /// The value we've saved when an operation is selected.
     /// </summary>
