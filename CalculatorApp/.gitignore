@@ -1,0 +1,91 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio Code
+.vscode/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Test results
+TestResults/
+*.trx
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# MAUI / Xamarin generated files
+*.apk
+*.aab
+*.ipa
+*.app
+*.appx
+*.msix
+*.msixbundle
+
+# Android
+**/obj/Debug/net*/android/
+**/obj/Release/net*/android/
+*.keystore
+
+# iOS / macOS
+**/bin/iPhone/
+**/bin/iPhoneSimulator/
+**/bin/Debug/net*/ios/
+**/bin/Release/net*/ios/
+**/bin/Debug/net*/maccatalyst/
+**/bin/Release/net*/maccatalyst/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Generated files
+Generated/
+GeneratedCode/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# User-specific application data
+appsettings.Local.json
+appsettings.Development.json
+
+# Secrets / local configuration
+.env
+.env.*
+!.env.example
+
+# Publish output
+publish/
+Publish/
+
+# Crash dumps
+*.dmp
