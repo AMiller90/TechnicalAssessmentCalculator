@@ -17,6 +17,7 @@
     <div class="Calculator-Keypad">
         <button @onclick="() => ViewModel.Clear()">C</button>
         <button @onclick="() => ViewModel.Backspace()">←</button>
+        <button @onclick="() => ViewModel.ToggleSign()">±</button>
         <button @onclick="() => ViewModel.Percentage()">%</button>
         <button @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Divide)">÷</button>
 
@@ -92,6 +93,9 @@
                     break;
                 case "%":
                     ViewModel.Percentage();
+                    break;
+                case "F9":
+                    ViewModel.ToggleSign();
                     break;
             }
         }

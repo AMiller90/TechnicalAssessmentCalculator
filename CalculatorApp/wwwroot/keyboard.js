@@ -9,7 +9,8 @@ window.calculatorKeyboard = {
                 "Enter", "=",
                 "Escape",
                 "Backspace",
-                "%"
+                "%",
+                "F9"
             ];
 
             if (!handledKeys.includes(event.key)) {
