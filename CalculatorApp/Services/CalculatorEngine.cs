@@ -93,13 +93,15 @@ public class CalculatorEngine
 
         if (_state.PendingOperation.HasValue && _state.StoredValue.HasValue)
         {
+            var lastOperand = _state.DisplayValue;
+
             if (!TryCalculatePendingOperation())
             {
                 return;
             }
 
             _state.LastOperation = _state.PendingOperation;
-            _state.LastOperand = _state.DisplayValue;
+            _state.LastOperand = lastOperand;
 
             _state.PendingOperation = null;
             _state.StoredValue = null;
