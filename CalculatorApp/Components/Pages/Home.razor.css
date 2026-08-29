@@ -1,0 +1,107 @@
+.calculator {
+    width: 360px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #202020;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.calculator-display {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 90px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+    background-color: #151515;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.calculator-keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+    .calculator-keypad button {
+        height: 64px;
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 22px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.1s ease, transform 0.05s ease;
+    }
+
+.number-button {
+    background-color: #323232;
+    color: #ffffff;
+}
+
+    .number-button:hover {
+        background-color: #3d3d3d;
+    }
+
+    .number-button:active {
+        background-color: #464646;
+        transform: scale(0.97);
+    }
+
+.function-button {
+    background-color: #2a2a2a;
+    color: #d0d0d0;
+}
+
+    .function-button:hover {
+        background-color: #363636;
+    }
+
+    .function-button:active {
+        background-color: #404040;
+        transform: scale(0.97);
+    }
+
+    .function-button:disabled {
+        background-color: #252525;
+        color: #666666;
+        cursor: default;
+    }
+
+.operator-button {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+    .operator-button:hover {
+        background-color: #474747;
+    }
+
+    .operator-button:active {
+        background-color: #505050;
+        transform: scale(0.97);
+    }
+
+.equals-button {
+    background-color: #4cc2ff;
+    color: #111111;
+}
+
+    .equals-button:hover {
+        background-color: #69ccff;
+    }
+
+    .equals-button:active {
+        background-color: #3bb5f0;
+        transform: scale(0.97);
+    }
+
+.error-display {
+    font-size: 24px;
+}

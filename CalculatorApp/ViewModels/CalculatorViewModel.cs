@@ -10,6 +10,7 @@ public class CalculatorViewModel : INotifyPropertyChanged
     public CalculatorState State => _engine.State;
 
     public string DisplayText => State.DisplayText;
+    public bool IsError => State.IsError;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -69,6 +70,7 @@ public class CalculatorViewModel : INotifyPropertyChanged
     {
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(DisplayText));
+        OnPropertyChanged(nameof(IsError));
     }
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

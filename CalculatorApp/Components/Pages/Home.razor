@@ -9,36 +9,36 @@
 
 <PageTitle>Calculator</PageTitle>
 
-<div class="Calculator">
-    <div class="Calculator-Display">
+<div class="calculator">
+    <div class="calculator-display @(ViewModel.IsError ? "error-display" : string.Empty)">
         @ViewModel.DisplayText
     </div>
 
-    <div class="Calculator-Keypad">
-        <button @onclick="() => ViewModel.Clear()">C</button>
-        <button @onclick="() => ViewModel.Backspace()">←</button>
-        <button @onclick="() => ViewModel.ToggleSign()">±</button>
-        <button @onclick="() => ViewModel.Percentage()">%</button>
-        <button @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Divide)">÷</button>
+    <div class="calculator-keypad">
+        <button class="function-button" @onclick="() => ViewModel.Percentage()">%</button>
+        <button class="function-button" disabled>CE</button>
+        <button class="function-button" @onclick="() => ViewModel.Clear()">C</button>
+        <button class="function-button" @onclick="() => ViewModel.Backspace()">←</button>
 
-        <button @onclick="() => ViewModel.EnterDigit(7)">7</button>
-        <button @onclick="() => ViewModel.EnterDigit(8)">8</button>
-        <button @onclick="() => ViewModel.EnterDigit(9)">9</button>
-        <button @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Multiply)">×</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(7)">7</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(8)">8</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(9)">9</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Multiply)">×</button>
 
-        <button @onclick="() => ViewModel.EnterDigit(4)">4</button>
-        <button @onclick="() => ViewModel.EnterDigit(5)">5</button>
-        <button @onclick="() => ViewModel.EnterDigit(6)">6</button>
-        <button @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Subtract)">−</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(4)">4</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(5)">5</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(6)">6</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Subtract)">−</button>
 
-        <button @onclick="() => ViewModel.EnterDigit(1)">1</button>
-        <button @onclick="() => ViewModel.EnterDigit(2)">2</button>
-        <button @onclick="() => ViewModel.EnterDigit(3)">3</button>
-        <button @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Add)">+</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(1)">1</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(2)">2</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(3)">3</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Add)">+</button>
 
-        <button class="zero" @onclick="() => ViewModel.EnterDigit(0)">0</button>
-        <button @onclick="() => ViewModel.EnterDecimal()">.</button>
-        <button @onclick="() => ViewModel.Equals()">=</button>
+        <button class="function-button" @onclick="() => ViewModel.ToggleSign()">±</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(0)">0</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDecimal()">.</button>
+        <button class="equals-button" @onclick="() => ViewModel.Equals()">=</button>
     </div>
 </div>
 

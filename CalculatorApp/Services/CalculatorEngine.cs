@@ -31,15 +31,20 @@ public class CalculatorEngine
         if (_state.DisplayText == "0")
         {
             _state.DisplayText = digit.ToString();
+            _state.DisplayValue = digit;
+            return;
         }
-        else
+
+        var candidateText = _state.DisplayText + digit;
+
+        if (!decimal.TryParse(candidateText, out var candidateValue))
         {
-            _state.DisplayText += digit;
+            return;
         }
 
-        _state.DisplayValue = decimal.Parse(_state.DisplayText);
+        _state.DisplayText = candidateText;
+        _state.DisplayValue = candidateValue;
     }
-
 
     public void EnterDecimal()
     {
@@ -221,7 +226,10 @@ public class CalculatorEngine
             return;
         }
 
-        _state.DisplayValue = decimal.Parse(_state.DisplayText);
+        if (decimal.TryParse(_state.DisplayText, out var value))
+        {
+            _state.DisplayValue = value;
+        }
     }
 
 
@@ -251,30 +259,40 @@ public class CalculatorEngine
 
     private decimal? PerformCalculation(decimal left, decimal right, CalculatorOperation operation)
     {
-        switch (operation)
+        try
         {
-            case CalculatorOperation.Add:
-                return left + right;
+            switch (operation)
+            {
+                case CalculatorOperation.Add:
+                    return left + right;
 
-            case CalculatorOperation.Subtract:
-                return left - right;
+                case CalculatorOperation.Subtract:
+                    return left - right;
 
-            case CalculatorOperation.Multiply:
-                return left * right;
+                case CalculatorOperation.Multiply:
+                    return left * right;
 
-            case CalculatorOperation.Divide:
-                if (right == 0)
-                {
-                    _state.IsError = true;
-                    return null;
-                }
+                case CalculatorOperation.Divide:
+                    if (right == 0)
+                    {
+                        _state.IsError = true;
+                        _state.DisplayText = "Cannot divide by zero";
+                        return null;
+                    }
 
-                return left / right;
+                    return left / right;
 
-            default:
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(operation));
+            }
+        }
+        catch (OverflowException)
+        {
+            _state.IsError = true;
+            return null;
         }
     }
+
     private static string FormatDisplayValue(decimal value)
     {
         return value.ToString("G29");
