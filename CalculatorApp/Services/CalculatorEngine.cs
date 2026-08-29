@@ -126,7 +126,7 @@ public class CalculatorEngine
             }
 
             _state.DisplayValue = result.Value;
-            _state.DisplayText = result.Value.ToString();
+            _state.DisplayText = FormatDisplayValue(result.Value);
             _state.IsEnteringNumber = false;
         }
     }
@@ -177,8 +177,24 @@ public class CalculatorEngine
             return;
         }
 
-        _state.DisplayValue /= 100;
+        if (!_state.PendingOperation.HasValue || !_state.StoredValue.HasValue)
+        {
+            _state.DisplayValue = 0;
+            _state.DisplayText = "0";
+            return;
+        }
+
+        var percentage = _state.DisplayValue / 100;
+
+        if (_state.PendingOperation is CalculatorOperation.Add or CalculatorOperation.Subtract)
+        {
+            percentage = _state.StoredValue.Value * percentage;
+        }
+
+        _state.DisplayValue = percentage;
+        _state.DisplayText = FormatDisplayValue(percentage);
     }
+
 
     public void Backspace()
     {
@@ -228,7 +244,7 @@ public class CalculatorEngine
         }
 
         _state.DisplayValue = result.Value;
-        _state.DisplayText = result.Value.ToString();
+        _state.DisplayText = FormatDisplayValue(result.Value);
 
         return true;
     }
@@ -259,4 +275,9 @@ public class CalculatorEngine
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
     }
+    private static string FormatDisplayValue(decimal value)
+    {
+        return value.ToString("G29");
+    }
+
 }
