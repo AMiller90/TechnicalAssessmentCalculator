@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using CalculatorApp.Models;
 using CalculatorApp.Services;
 
+namespace CalculatorApp.ViewModels;
 public class CalculatorViewModel : INotifyPropertyChanged
 {
     private CalculatorEngine _engine;
