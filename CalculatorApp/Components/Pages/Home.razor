@@ -10,15 +10,20 @@
 <PageTitle>Calculator</PageTitle>
 
 <div class="calculator">
-    <div class="calculator-display @(ViewModel.IsError ? "error-display" : string.Empty)">
+    <div class="calculator-display @(ViewModel.IsError ? "error-display" : GetDisplaySizeClass())">
         @ViewModel.DisplayText
     </div>
 
     <div class="calculator-keypad">
         <button class="function-button" @onclick="() => ViewModel.Percentage()">%</button>
-        <button class="function-button" disabled>CE</button>
+        <button class="function-button" @onclick="() => ViewModel.ClearEntry()">CE</button>
         <button class="function-button" @onclick="() => ViewModel.Clear()">C</button>
         <button class="function-button" @onclick="() => ViewModel.Backspace()">←</button>
+
+        <button class="function-button" @onclick="() => ViewModel.Reciprocal()">1/x</button>
+        <button class="function-button" @onclick="() => ViewModel.Square()">x²</button>
+        <button class="function-button" @onclick="() => ViewModel.SquareRoot()">√x</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Divide)">÷</button>
 
         <button class="number-button" @onclick="() => ViewModel.EnterDigit(7)">7</button>
         <button class="number-button" @onclick="() => ViewModel.EnterDigit(8)">8</button>
@@ -40,6 +45,7 @@
         <button class="number-button" @onclick="() => ViewModel.EnterDecimal()">.</button>
         <button class="equals-button" @onclick="() => ViewModel.Equals()">=</button>
     </div>
+
 </div>
 
 @code {
@@ -97,12 +103,33 @@
                 case "F9":
                     ViewModel.ToggleSign();
                     break;
+                case "Q":
+                    ViewModel.Square();
+                    break;
+                case "R":
+                    ViewModel.Reciprocal();
+                    break;
+                case "@":
+                    ViewModel.SquareRoot();
+                    break;
+                case "Delete":
+                    ViewModel.ClearEntry();
+                    break;
             }
         }
 
         InvokeAsync(StateHasChanged);
     }
 
+    private string GetDisplaySizeClass()
+    {
+        return ViewModel.DisplayText.Length switch
+        {
+            <= 10 => "display-normal",
+            <= 15 => "display-small",
+            _ => "display-smaller"
+        };
+    }
 
     public void Dispose()
     {

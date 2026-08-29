@@ -48,6 +48,11 @@ public class CalculatorViewModel : INotifyPropertyChanged
         _engine.Clear();
         NotifyStateChanged();
     }
+    public void ClearEntry()
+    {
+        _engine.ClearEntry();
+        NotifyStateChanged();
+    }
 
     public void ToggleSign()
     {
@@ -58,6 +63,22 @@ public class CalculatorViewModel : INotifyPropertyChanged
     public void Percentage()
     {
         _engine.Percentage();
+        NotifyStateChanged();
+    }
+
+    public void Reciprocal()
+    {
+        _engine.Reciprocal();
+        NotifyStateChanged();
+    }
+    public void Square()
+    {
+        _engine.Square();
+        NotifyStateChanged();
+    }
+    public void SquareRoot()
+    {
+        _engine.SquareRoot();
         NotifyStateChanged();
     }
 

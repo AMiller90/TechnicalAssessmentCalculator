@@ -151,6 +151,20 @@ public class CalculatorEngine
         _state.IsError = false;
     }
 
+    public void ClearEntry()
+    {
+        if (_state.IsError)
+        {
+            Clear();
+            return;
+        }
+
+        _state.DisplayValue = 0;
+        _state.DisplayText = "0";
+        _state.IsEnteringNumber = false;
+    }
+
+
     public void ToggleSign()
     {
         if (_state.IsError)
@@ -198,6 +212,63 @@ public class CalculatorEngine
 
         _state.DisplayValue = percentage;
         _state.DisplayText = FormatDisplayValue(percentage);
+    }
+
+    public void Reciprocal()
+    {
+        if (_state.IsError)
+        {
+            return;
+        }
+
+        if (_state.DisplayValue == 0)
+        {
+            _state.IsError = true;
+            _state.DisplayText = "Cannot divide by zero";
+            return;
+        }
+
+        _state.DisplayValue = 1 / _state.DisplayValue;
+        _state.DisplayText = FormatDisplayValue(_state.DisplayValue);
+        _state.IsEnteringNumber = false;
+    }
+
+    public void Square()
+    {
+        if (_state.IsError)
+        {
+            return;
+        }
+
+        try
+        {
+            _state.DisplayValue *= _state.DisplayValue;
+            _state.DisplayText = FormatDisplayValue(_state.DisplayValue);
+            _state.IsEnteringNumber = false;
+        }
+        catch (OverflowException)
+        {
+            _state.IsError = true;
+            _state.DisplayText = "Result too large";
+        }
+    }
+    public void SquareRoot()
+    {
+        if (_state.IsError)
+        {
+            return;
+        }
+
+        if (_state.DisplayValue < 0)
+        {
+            _state.IsError = true;
+            _state.DisplayText = "Invalid input";
+            return;
+        }
+
+        _state.DisplayValue = (decimal)Math.Sqrt((double)_state.DisplayValue);
+        _state.DisplayText = FormatDisplayValue(_state.DisplayValue);
+        _state.IsEnteringNumber = false;
     }
 
 

@@ -1,19 +1,16 @@
 .calculator {
     width: 360px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 16px;
     background-color: #202020;
     border-radius: 16px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .calculator-display {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 90px;
-    margin-bottom: 16px;
-    padding: 0 16px;
+    height: 80px;
+    margin-bottom: 12px;
+    padding: 0 14px;
     background-color: #151515;
     border-radius: 10px;
     color: #ffffff;
@@ -30,7 +27,7 @@
 }
 
     .calculator-keypad button {
-        height: 64px;
+        height: 58px;
         border: none;
         border-radius: 10px;
         font-family: inherit;
@@ -104,4 +101,16 @@
 
 .error-display {
     font-size: 24px;
+}
+
+.display-normal {
+    font-size: 42px;
+}
+
+.display-small {
+    font-size: 30px;
+}
+
+.display-smaller {
+    font-size: 28px;
 }
