@@ -1,7 +1,11 @@
 ﻿@page "/"
 @using CalculatorApp.Models
 @using CalculatorApp.ViewModels
+@using Microsoft.JSInterop
 @inject CalculatorViewModel ViewModel
+@inject IJSRuntime JS
+
+@implements IDisposable
 
 <PageTitle>Calculator</PageTitle>
 
@@ -9,6 +13,7 @@
     <div class="Calculator-Display">
         @ViewModel.DisplayText
     </div>
+
     <div class="Calculator-Keypad">
         <button @onclick="() => ViewModel.Clear()">C</button>
 
@@ -34,3 +39,68 @@
         <button @onclick="() => ViewModel.Equals()">=</button>
     </div>
 </div>
+
+@code {
+    private DotNetObjectReference<Home>? _dotNetReference;
+    private static readonly string[] HandledKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _dotNetReference = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("calculatorKeyboard.initialize", _dotNetReference);
+        }
+    }
+
+    [JSInvokable]
+    public void HandleKeyboardInput(string key)
+    {
+        if (HandledKeys.Contains(key))
+        {
+            ViewModel.EnterDigit(int.Parse(key));
+        }
+        else
+        {
+            switch (key)
+            {
+                case ".":
+                    ViewModel.EnterDecimal();
+                    break;
+                case "+":
+                    ViewModel.ApplyOperation(CalculatorOperation.Add);
+                    break;
+                case "-":
+                    ViewModel.ApplyOperation(CalculatorOperation.Subtract);
+                    break;
+                case "*":
+                    ViewModel.ApplyOperation(CalculatorOperation.Multiply);
+                    break;
+                case "/":
+                    ViewModel.ApplyOperation(CalculatorOperation.Divide);
+                    break;
+                case "Enter":
+                case "=":
+                    ViewModel.Equals();
+                    break;
+                case "Escape":
+                    ViewModel.Clear();
+                    break;
+                case "Backspace":
+                    ViewModel.Backspace();
+                    break;
+                case "%":
+                    ViewModel.Percentage();
+                    break;
+            }
+        }
+
+        InvokeAsync(StateHasChanged);
+    }
+
+
+    public void Dispose()
+    {
+        _dotNetReference?.Dispose();
+    }
+}
