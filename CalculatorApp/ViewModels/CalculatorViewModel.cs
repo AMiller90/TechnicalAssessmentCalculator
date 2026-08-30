@@ -6,7 +6,7 @@ using CalculatorApp.Services;
 namespace CalculatorApp.ViewModels;
 public class CalculatorViewModel : INotifyPropertyChanged
 {
-    private CalculatorEngine _engine;
+    private readonly CalculatorEngine _engine;
     public CalculatorState State => _engine.State;
 
     public string DisplayText => State.DisplayText;
