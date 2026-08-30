@@ -1,5 +1,138 @@
 ﻿@page "/"
+@using CalculatorApp.Models
+@using CalculatorApp.ViewModels
+@using Microsoft.JSInterop
+@inject CalculatorViewModel ViewModel
+@inject IJSRuntime JS
 
-<h1>Hello, world!</h1>
+@implements IDisposable
 
-Welcome to your new app.
+<PageTitle>Calculator</PageTitle>
+
+<div class="calculator">
+    <div class="calculator-display @(ViewModel.IsError ? "error-display" : GetDisplaySizeClass())">
+        @ViewModel.DisplayText
+    </div>
+
+    <div class="calculator-keypad">
+        <button class="function-button" @onclick="() => ViewModel.Percentage()">%</button>
+        <button class="function-button" @onclick="() => ViewModel.ClearEntry()">CE</button>
+        <button class="function-button" @onclick="() => ViewModel.Clear()">C</button>
+        <button class="function-button" @onclick="() => ViewModel.Backspace()">←</button>
+
+        <button class="function-button" @onclick="() => ViewModel.Reciprocal()">1/x</button>
+        <button class="function-button" @onclick="() => ViewModel.Square()">x²</button>
+        <button class="function-button" @onclick="() => ViewModel.SquareRoot()">√x</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Divide)">÷</button>
+
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(7)">7</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(8)">8</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(9)">9</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Multiply)">×</button>
+
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(4)">4</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(5)">5</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(6)">6</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Subtract)">−</button>
+
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(1)">1</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(2)">2</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(3)">3</button>
+        <button class="operator-button" @onclick="() => ViewModel.ApplyOperation(CalculatorOperation.Add)">+</button>
+
+        <button class="function-button" @onclick="() => ViewModel.ToggleSign()">±</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDigit(0)">0</button>
+        <button class="number-button" @onclick="() => ViewModel.EnterDecimal()">.</button>
+        <button class="equals-button" @onclick="() => ViewModel.Equals()">=</button>
+    </div>
+
+</div>
+
+@code {
+    private DotNetObjectReference<Home>? _dotNetReference;
+    private static readonly string[] HandledKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _dotNetReference = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("calculatorKeyboard.initialize", _dotNetReference);
+        }
+    }
+
+    [JSInvokable]
+    public void HandleKeyboardInput(string key)
+    {
+        if (HandledKeys.Contains(key))
+        {
+            ViewModel.EnterDigit(int.Parse(key));
+        }
+        else
+        {
+            switch (key)
+            {
+                case ".":
+                    ViewModel.EnterDecimal();
+                    break;
+                case "+":
+                    ViewModel.ApplyOperation(CalculatorOperation.Add);
+                    break;
+                case "-":
+                    ViewModel.ApplyOperation(CalculatorOperation.Subtract);
+                    break;
+                case "*":
+                    ViewModel.ApplyOperation(CalculatorOperation.Multiply);
+                    break;
+                case "/":
+                    ViewModel.ApplyOperation(CalculatorOperation.Divide);
+                    break;
+                case "Enter":
+                case "=":
+                    ViewModel.Equals();
+                    break;
+                case "Escape":
+                    ViewModel.Clear();
+                    break;
+                case "Backspace":
+                    ViewModel.Backspace();
+                    break;
+                case "%":
+                    ViewModel.Percentage();
+                    break;
+                case "F9":
+                    ViewModel.ToggleSign();
+                    break;
+                case "Q":
+                    ViewModel.Square();
+                    break;
+                case "R":
+                    ViewModel.Reciprocal();
+                    break;
+                case "@":
+                    ViewModel.SquareRoot();
+                    break;
+                case "Delete":
+                    ViewModel.ClearEntry();
+                    break;
+            }
+        }
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private string GetDisplaySizeClass()
+    {
+        return ViewModel.DisplayText.Length switch
+        {
+            <= 10 => "display-normal",
+            <= 15 => "display-small",
+            _ => "display-smaller"
+        };
+    }
+
+    public void Dispose()
+    {
+        _dotNetReference?.Dispose();
+    }
+}

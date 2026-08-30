@@ -9,6 +9,11 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new MainPage()) { Title = "CalculatorApp" };
-	}
+        return new Window(new MainPage())
+        {
+            Title = "Calculator",
+            Width = 400,
+            Height = 600
+        };
+    }
 }
