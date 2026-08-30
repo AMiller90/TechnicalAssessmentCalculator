@@ -2,7 +2,7 @@ Technical Assessment — Calculator
 
 A desktop calculator application developed as part of a Software Developer technical assessment.
 
-The application is implemented in C# using .NET 9, .NET MAUI, and Blazor Hybrid, with an MVVM architecture. The calculator is designed to provide functionality similar to Windows Calculator Standard mode while demonstrating clean separation between the UI, application logic, and calculator state.
+The application is implemented in C# using .NET 9, .NET MAUI, and Blazor Hybrid with an MVVM architecture. The calculator provides functionality similar to Windows Calculator Standard mode while demonstrating separation between the UI, application logic, and calculator state.
 
 Technology Stack
 C#
@@ -21,16 +21,16 @@ The assessment requires WPF or a newer UI technology and provides bonus consider
 
 The technology choice also aligns closely with technologies identified in the target role, including C#, WPF, and MAUI/Blazor.
 
-The application is not a traditional web application. It runs as a native MAUI application with the Blazor UI hosted inside the application.
+The application is not a traditional web application. It runs as a native .NET MAUI application with the Blazor UI hosted inside the application.
 
 Architecture
 
 The application follows a simple MVVM-oriented architecture:
-
+```text
 ┌────────────────────────────┐
-│       Blazor UI            │
-│       Home.razor           │
-│          View              │
+│         Blazor UI          │
+│        Home.razor          │
+│           View             │
 └──────────────┬─────────────┘
                │
                ▼
@@ -45,7 +45,7 @@ The application follows a simple MVVM-oriented architecture:
                ▼
 ┌────────────────────────────┐
 │     CalculatorEngine       │
-│      Application Logic     │
+│     Application Logic      │
 │                            │
 │ Calculator behavior        │
 │ State transitions          │
@@ -60,7 +60,7 @@ The application follows a simple MVVM-oriented architecture:
 │                            │
 │ Calculator data and state  │
 └────────────────────────────┘
-
+```
 
 The calculator engine has no dependency on MAUI, Blazor, or UI components.
 
@@ -71,24 +71,28 @@ Keyboard Input
 Mouse and keyboard input use the same ViewModel actions.
 
 Keyboard events are captured by JavaScript inside the Blazor WebView and forwarded to the Razor component through JavaScript interop.
-
+```text
 Keyboard
-    ↓
+    │
+    ▼
 JavaScript keydown handler
-    ↓
+    │
+    ▼
 Blazor JS interop
-    ↓
+    │
+    ▼
 Home.razor
-    ↓
+    │
+    ▼
 CalculatorViewModel
-    ↓
+    │
+    ▼
 CalculatorEngine
-
-
-Supported keyboard input includes:
-
+```
+```text
+Supported Keyboard Input
 Key	Action
-0–9	Enter digit
+0-9	Enter digit
 .	Decimal point
 +	Addition
 -	Subtraction
@@ -103,6 +107,7 @@ Q / q	Square
 R / r	Reciprocal
 @	Square root
 Delete	Clear Entry
+```
 
 Keyboard input is intentionally translated into the same ViewModel operations used by mouse input rather than implementing separate calculator logic.
 
@@ -111,7 +116,7 @@ Required Calculator Functions
 
 The application supports the core assessment requirements:
 
-Number input 0–9
+Number input 0-9
 Decimal point
 Addition
 Subtraction
@@ -124,7 +129,7 @@ Keyboard input
 Additional Standard Calculator Functions
 
 The implementation also includes:
-
+```text
 Backspace
 Clear Entry (CE)
 Toggle sign (±)
@@ -140,11 +145,11 @@ Division-by-zero protection
 Invalid square-root handling
 Arithmetic overflow handling
 Dynamic display sizing
-
+```
 The additional functions were implemented to provide a more complete Standard Calculator experience without attempting to reproduce the entire Windows Calculator application.
 
 Calculator Behavior
-
+```text
 The calculator uses sequential calculator behavior rather than an expression parser.
 
 For example:
@@ -157,30 +162,31 @@ is evaluated sequentially:
 12 + 5 = 17
 17 - 3 = 14
 
+Repeated Equals
 
 The calculator also supports repeated equals:
 
 12 + 5 = 17
 =        22
 =        27
-
+```
 
 The implementation maintains the previous operation and operand to support this behavior.
 
-Percentage behavior was specifically tested against Windows Standard Calculator, including:
+Percentage Behavior
 
+Percentage behavior was specifically tested against Windows Standard Calculator, including:
+```text
 100 + 10 % = 110
 100 - 10 % = 90
 100 × 10 % = 10
 100 ÷ 10 % = 1000
-
+```
 Error Handling
 
 Calculator errors are represented through an explicit calculator error state rather than allowing arithmetic exceptions to reach the UI.
 
-Examples include:
-
-Division by zero
+Division by Zero
 10 ÷ 0 =
 
 
@@ -188,7 +194,7 @@ Displays:
 
 Cannot divide by zero
 
-Invalid square root
+Invalid Square Root
 -25 → √x
 
 
@@ -196,7 +202,7 @@ Displays:
 
 Invalid input
 
-Arithmetic overflow
+Arithmetic Overflow
 
 An operation exceeding the supported decimal range displays:
 
@@ -217,9 +223,9 @@ DisplayValue = 0
 DisplayText  = "0."
 
 
-allows the calculator to correctly represent an in-progress decimal entry.
+This allows the calculator to correctly represent an in-progress decimal entry.
 
-This also allows the UI to distinguish between a value such as 0 and user input such as 0..
+Maintaining the display text separately also allows the UI and calculator logic to distinguish between a numeric value such as 0 and an input state such as 0..
 
 User Interface
 
@@ -234,16 +240,15 @@ Hover and pressed states
 Rounded controls
 Dynamic display sizing
 Native application window sizing
-
-The keypad layout is:
-
-%    CE   C    ←
-1/x  x²   √x   ÷
-7    8    9    ×
-4    5    6    −
-1    2    3    +
-±    0    .    =
-
+```text
+Keypad Layout
+%     CE    C     ←
+1/x   x²    √x    ÷
+7     8     9     ×
+4     5     6     −
+1     2     3     +
+±     0     .     =
+```
 
 The styling is inspired by modern desktop calculator interfaces without directly reproducing Microsoft's branding or assets.
 
@@ -252,21 +257,31 @@ Testing
 Testing was primarily performed manually through the running application.
 
 The development process was:
-
+```text
 Implement feature
-       ↓
+       │
+       ▼
 Build application
-       ↓
+       │
+       ▼
 Test through the UI
-       ↓
+       │
+       ▼
 Compare behavior with Windows Standard Calculator where appropriate
-       ↓
+       │
+       ▼
 Refine implementation
-       ↓
+       │
+       ▼
 Commit changes
-       ↓
+       │
+       ▼
 Push to feature branch
-
+       │
+       ▼
+Merge completed work into main
+```
+Testing Coverage
 
 Testing covered:
 
@@ -283,6 +298,7 @@ Square root
 Repeated equals
 Chained calculations
 Keyboard input
+Mouse input
 Division by zero
 Invalid square roots
 Arithmetic overflow
@@ -290,7 +306,7 @@ Error recovery
 Long display values
 
 A dedicated automated test project was intentionally not added because the assessment's primary goal was the calculator implementation and UI. Manual testing was used extensively during development, with Windows Standard Calculator used as a behavioral reference for relevant functionality.
-
+```text
 Project Structure
 TechnicalAssessmentCalculator/
 │
@@ -313,6 +329,7 @@ TechnicalAssessmentCalculator/
 │   │
 │   ├── Platforms/
 │   ├── Resources/
+│   │
 │   ├── wwwroot/
 │   │   └── keyboard.js
 │   │
@@ -324,17 +341,21 @@ TechnicalAssessmentCalculator/
 │   └── CalculatorApp.csproj
 │
 └── README.md
-
+```
 Git Development
 
-Calculator development was completed on:
+Calculator development was initially completed on the:
 
 feature/calculator
 
 
-Development was intentionally kept separate from main.
+branch.
+
+Development was intentionally kept separate from main until the implementation was complete.
 
 The project was developed through multiple meaningful commits rather than a single final commit. The commit history reflects the progression from the generated MAUI application through the calculator architecture, functionality, keyboard support, behavioral refinements, error handling, and UI improvements.
+
+The completed feature branch was subsequently merged into main.
 
 Scope
 
@@ -352,7 +373,7 @@ Memory functions
 Keep on top
 Compact/mini mode
 Scientific notation
-Full dynamic text-measurement and scaling behavior
+Full dynamic text measurement and scaling behavior
 
 These features were excluded intentionally to keep the implementation focused on the assessment requirements rather than attempting to reproduce the complete Windows Calculator application.
 
